@@ -1,0 +1,1 @@
+This is a simple file sharing service written in Go
