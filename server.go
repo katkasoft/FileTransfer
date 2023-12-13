@@ -8,7 +8,8 @@ import (
 
 func index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		http.NotFound(w, r)
+		tmpl, _ := template.ParseFiles("templates/404.html")
+		tmpl.Execute(w, nil)
 		return
 	}
 	tmpl, _ := template.ParseFiles("templates/index.html")
