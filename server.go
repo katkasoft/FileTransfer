@@ -20,6 +20,10 @@ func favicon(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "static/favicon.ico")
 }
 
+func registerview(w http.ResponseWriter, r *http.Request) {
+	tmpl, _ = template.ParseFiles()
+}
+
 func main() {
 	addr := "localhost:80"
 	mux := http.NewServeMux()
