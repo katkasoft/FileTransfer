@@ -21,7 +21,8 @@ func favicon(w http.ResponseWriter, r *http.Request) {
 }
 
 func registerview(w http.ResponseWriter, r *http.Request) {
-	tmpl, _ = template.ParseFiles()
+	tmpl, _ := template.ParseFiles("templates/auth/register.html")
+	tmpl.Execute(w, nil)
 }
 
 func main() {
@@ -29,9 +30,10 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/favicon.ico", favicon)
+	mux.HandleFunc("/auth/register", registerview)
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
-	fmt.Println("Server started at " + addr)
+	fmt.Println("Server started at http://" + addr)
 	err := http.ListenAndServe(addr, mux)
 	if err != nil {
 		fmt.Println(err)
