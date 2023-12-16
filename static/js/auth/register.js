@@ -16,6 +16,13 @@ document.querySelector('form').addEventListener('submit', (e) => {
         error.innerHTML = 'Passwords don\'t match'
         return
     }
+    // const emailreq = new XMLHttpRequest()
+    // emailreq.onload = () => {
+    //     alert(emailreq.responseText)
+    // }
+    // emailreq.open('GET', '/api/auth/exist?email=' + email)
+    // emailreq.send()
+    
 })
 
 function show(el) {
