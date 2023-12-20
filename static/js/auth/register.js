@@ -22,7 +22,18 @@ document.querySelector('form').addEventListener('submit', (e) => {
     // }
     // emailreq.open('GET', '/api/auth/exist?email=' + email)
     // emailreq.send()
-    
+    const req = new XMLHttpRequest()
+    req.onload = () => {
+        switch (req.responseText) {
+            case 'success':
+                window.location = '/'
+                break
+            default:
+                error.innerHTML = 'Something went wrong, sorry. Please try again later'
+        }
+    }
+    req.open('GET', `/api/auth/register?email=${email}&password=${password}`)
+    req.send()    
 })
 
 function show(el) {

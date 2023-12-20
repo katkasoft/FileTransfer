@@ -1,10 +1,15 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
 	"net/http"
+
+	_ "github.com/mattn/go-sqlite3"
 )
+
+var db, err = sql.Open("sqlite3", "db.sqlite3")
 
 func index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
@@ -25,7 +30,15 @@ func registerview(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
+func register(w http.ResponseWriter, r *http.Request) {
+
+}
+
 func main() {
+	if err != nil {
+		fmt.Println(err)
+	}
+	db.Exec("create table if not exists users (email text, password text)")
 	addr := "localhost:80"
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", index)
