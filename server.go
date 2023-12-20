@@ -31,7 +31,10 @@ func registerview(w http.ResponseWriter, r *http.Request) {
 }
 
 func register(w http.ResponseWriter, r *http.Request) {
-
+	email := r.URL.Query().Get("email")
+	password := r.URL.Query().Get("password")
+	db.Exec("insert into users values ('" + email + "', '" + password + "')")
+	fmt.Fprintln()
 }
 
 func main() {
@@ -51,4 +54,5 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+	//2
 }
