@@ -16,21 +16,18 @@ document.querySelector('form').addEventListener('submit', (e) => {
         error.innerHTML = 'Passwords don\'t match'
         return
     }
-    // const emailreq = new XMLHttpRequest()
-    // emailreq.onload = () => {
-    //     alert(emailreq.responseText)
-    // }
-    // emailreq.open('GET', '/api/auth/exist?email=' + email)
-    // emailreq.send()
+    const emailreq = new XMLHttpRequest()
+    emailreq.onload = () => {
+        alert(emailreq.responseText)
+    }
+    emailreq.open('GET', '/api/auth/exist?email=' + email)
+    emailreq.send()
     const req = new XMLHttpRequest()
     req.onload = () => {
-        switch (req.responseText) {
-            case 'success':
-                window.location = '/'
-                break
-            default:
-                error.innerHTML = 'Something went wrong, sorry. Please try again later'
-        }
+        if (req.responseText = 'success')
+            window.location = '/'
+        else
+            error.innerHTML = 'Something went wrong, sorry. Please try again later'
     }
     req.open('GET', `/api/auth/register?email=${email}&password=${password}`)
     req.send()    

@@ -30,13 +30,6 @@ func registerview(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
-func register(w http.ResponseWriter, r *http.Request) {
-	email := r.URL.Query().Get("email")
-	password := r.URL.Query().Get("password")
-	db.Exec("insert into users values ('" + email + "', '" + password + "')")
-	fmt.Fprintln()
-}
-
 func main() {
 	if err != nil {
 		fmt.Println(err)
@@ -47,6 +40,7 @@ func main() {
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/favicon.ico", favicon)
 	mux.HandleFunc("/auth/register", registerview)
+	mux.HandleFunc("/api/auth/register", register)
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 	fmt.Println("Server started at http://" + addr)
