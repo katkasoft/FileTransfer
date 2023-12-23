@@ -8,29 +8,38 @@ document.querySelector('form').addEventListener('submit', (e) => {
     const password = passwordview.value
     const confirm = confirmview.value
     error.innerHTML = ''
-    if (password.length < 8) {
-        error.innerHTML = 'Password too short. Minimal 8 characters'
-        return
-    }
-    if (password != confirm) {
-        error.innerHTML = 'Passwords don\'t match'
-        return
-    }
+    var emailerror = false
     const emailreq = new XMLHttpRequest()
     emailreq.onload = () => {
-        alert(emailreq.responseText)
+        if (emailreq.responseText == 'true') {
+            error.innerHTML = 'Sorry, user with this email already exists.'
+            emailerror = true
+        } else if (emailreq.responseText == 'false') {
+            if (password.length < 8) {
+                error.innerHTML = 'Password too short. Minimal 8 characters'
+                return
+            }
+            if (password != confirm) {
+                error.innerHTML = 'Passwords don\'t match'
+                return
+            }
+            const req = new XMLHttpRequest()
+            req.onload = () => {
+                if (req.responseText = 'success')
+                    window.location = '/'
+                else
+                    error.innerHTML = 'Something went wrong, sorry. Please try again later'
+            }
+            req.open('GET', `/api/auth/register?email=${email}&password=${password}`)
+            req.send()    
+        } else {
+            error.innerHTML = 'Something went wrong, sorry. Please try again later'
+            emailerror = true
+        }
     }
     emailreq.open('GET', '/api/auth/exist?email=' + email)
     emailreq.send()
-    const req = new XMLHttpRequest()
-    req.onload = () => {
-        if (req.responseText = 'success')
-            window.location = '/'
-        else
-            error.innerHTML = 'Something went wrong, sorry. Please try again later'
-    }
-    req.open('GET', `/api/auth/register?email=${email}&password=${password}`)
-    req.send()    
+    
 })
 
 function show(el) {

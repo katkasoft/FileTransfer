@@ -3,32 +3,12 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"html/template"
 	"net/http"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 var db, err = sql.Open("sqlite3", "db.sqlite3")
-
-func index(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		tmpl, _ := template.ParseFiles("templates/404.html")
-		tmpl.Execute(w, nil)
-		return
-	}
-	tmpl, _ := template.ParseFiles("templates/index.html")
-	tmpl.Execute(w, nil)
-}
-
-func favicon(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "static/favicon.ico")
-}
-
-func registerview(w http.ResponseWriter, r *http.Request) {
-	tmpl, _ := template.ParseFiles("templates/auth/register.html")
-	tmpl.Execute(w, nil)
-}
 
 func main() {
 	if err != nil {
@@ -41,6 +21,7 @@ func main() {
 	mux.HandleFunc("/favicon.ico", favicon)
 	mux.HandleFunc("/auth/register", registerview)
 	mux.HandleFunc("/api/auth/register", register)
+	mux.HandleFunc("/api/auth/exist", userexist)
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 	fmt.Println("Server started at http://" + addr)
